@@ -55,4 +55,4 @@ router.post('/ai/symptoms', async (req, res) => {
 
 });
 
-export { router as userAuthRouter };
+export { router as userDoctorAuthRouter };

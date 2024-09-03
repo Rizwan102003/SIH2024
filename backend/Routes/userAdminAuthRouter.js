@@ -12,4 +12,4 @@ router.get('/users', (req, res) => {
   res.json({ message: 'Admin Dashboard' });
 });
 
-export {router as adminAppRouter};
+export {router as userAdminAuthRouter};

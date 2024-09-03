@@ -42,3 +42,6 @@ const userAdminSchema = new mongoose.Schema({
         }
     },
 });
+
+const userAdminAuthModel = mongoose.model('AdminAuth',userAdminSchema);
+export {userAdminAuthModel};

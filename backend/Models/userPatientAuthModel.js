@@ -5,8 +5,8 @@ const userSchema = new mongoose.Schema({
         username: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 10,
+            maxlength: 10,
+            minlength: 5,
         },
         email: {
             type: String,
@@ -15,31 +15,11 @@ const userSchema = new mongoose.Schema({
         password: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 8,
         },
         fullName: {
             type: String,
             required: true,
         },
-        security:{
-            lastLogin: {
-                type: Date,
-                required: true,
-            },
-            failedLogin: {
-                type: Number,
-                default: 0,
-            },
-            createdAt:{
-                type:Date,
-                default:Date.now
-            },
-            updatedAt:{
-                type:Date,
-                required:true
-            }
-        }
     },
     healthDetails: {
         height: {
@@ -57,7 +37,7 @@ const userSchema = new mongoose.Schema({
         chronicIllness: {
             hasChronicIllness: {
                 type: Boolean,
-                required: true,
+                required: false,
             },
             ChronicIllness: {
                 type: [String],
@@ -67,7 +47,7 @@ const userSchema = new mongoose.Schema({
         allergies: {
             hasAllergies: {
                 type: Boolean,
-                required: true,
+                required: false,
             },
             allergies: {
                 type: [String],
@@ -81,12 +61,30 @@ const userSchema = new mongoose.Schema({
             },
             lastCheckUpDate: {
                 type: Date,
-                default: Date.now, // Default value set to the current date and time
+                default: Date.now,
             },
         },
+    },
+    security:{
+        lastLogin: {
+            type: Date,
+            required: false,
+        },
+        failedLogin: {
+            type: Number,
+            default: 0,
+        },
+        createdAt:{
+            type:Date,
+            default:Date.now
+        },
+        updatedAt:{
+            type:Date,
+            required:false
+        }
     }
 });
 
-const userPatientAuthModel = mongoose.model('Auth',userSchema);
+const userPatientAuthModel = mongoose.model('PatientAuth',userSchema);
 export {userPatientAuthModel};
 

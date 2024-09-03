@@ -44,7 +44,7 @@ const userDoctorSchema = new mongoose.Schema({
 });
 
 
-const userDoctorAuthModel = mongoose.model('DocAuth',userDoctorSchema);
+const userDoctorAuthModel = mongoose.model('DoctorAuth',userDoctorSchema);
 export {userDoctorAuthModel};
 
 

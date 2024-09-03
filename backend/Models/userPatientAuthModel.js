@@ -22,21 +22,23 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-        lastLogin: {
-            type: Date,
-            required: true,
-        },
-        failedLogin: {
-            type: Number,
-            default: 0,
-        },
-        createdAt:{
-            type:Date,
-            default:Date.now
-        },
-        updatedAt:{
-            type:Date,
-            required:true
+        security:{
+            lastLogin: {
+                type: Date,
+                required: true,
+            },
+            failedLogin: {
+                type: Number,
+                default: 0,
+            },
+            createdAt:{
+                type:Date,
+                default:Date.now
+            },
+            updatedAt:{
+                type:Date,
+                required:true
+            }
         }
     },
     healthDetails: {
@@ -47,10 +49,6 @@ const userSchema = new mongoose.Schema({
         weight: {
             type: Number,
             required: true,
-        },
-        vision:{
-            type:String,
-            required:true
         },
         bloodType: {
             type: String,

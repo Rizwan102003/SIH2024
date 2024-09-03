@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/signup', async (req, res) => {
     try{
-        const { username, email, password, fullName, height, weight, bloodType,  lastCheckUpDoctor, lastCheckUpDate, vision } = req.body;
+        const { username, email, password, fullName, height, weight, bloodType,  lastCheckUpDoctor, lastCheckUpDate } = req.body;
 
     if(!username || !email || !password || !fullName || !height || !weight || !bloodType || !lastCheckUpDoctor || !lastCheckUpDate || !vision){
         res.json({message:'Please include all the mandatory fields!', status:false});
@@ -34,7 +34,6 @@ router.post('/signup', async (req, res) => {
             height:height,
             weight:weight,
             bloodType:bloodType,
-            vision:vision,
             bloodType:bloodType,
             lastCheckUp:{
                 lastCheckUpDoctor:lastCheckUpDoctor,
@@ -54,11 +53,11 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    //firebase code
+    
 })
 
 router.get('/profile/:userId', async (req, res) => {
-    //firebase code
+    
 })
 
 router.post('/updateProfile', async (req, res) => {

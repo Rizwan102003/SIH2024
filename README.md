@@ -43,3 +43,6 @@ We have implemented these features:
 
 ⦿ <b>Database :</b>
 * [![MongoDB]([https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black](https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.indiamart.com%2Fproddetail%2Fmongo-db-services-21561402912.html&psig=AOvVaw1Ue9VWMIFTxc7GpMuELR0g&ust=1725547864811000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMjux-7EqYgDFQAAAAAdAAAAABAE))]([https://firebase.google.com/](https://www.mongodb.com/))
+
+⦿ <b>Models :</b>
+* [![Tensorflow](https://www.tensorflow.org/)

@@ -40,10 +40,11 @@ We have implemented these features:
  [![ExpressJS](https://img.shields.io/badge/express.js-35495E?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 
 ⦿ <b>Server :</b>
-* [![MongoDB Atlas]([[https://img.shields.io/badge/google_cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white](https://flowygo.com/wp-content/uploads/2020/12/mongodb-atlas.png](https://d7umqicpi7263.cloudfront.net/img/product/f4fd3bee-39d5-43f1-ac29-c10a6d0b31df.png)))]([https://cloud.google.com/](https://www.mongodb.com/products/platform/atlas-database))
+* [![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-cloud-blue)](https://www.mongodb.com/atlas/database)
 
 ⦿ <b>Database :</b>
-* [![MongoDB]([https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black](https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.indiamart.com%2Fproddetail%2Fmongo-db-services-21561402912.html&psig=AOvVaw1Ue9VWMIFTxc7GpMuELR0g&ust=1725547864811000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMjux-7EqYgDFQAAAAAdAAAAABAE))]([https://firebase.google.com/](https://www.mongodb.com/))
+* [![MongoDB](https://img.shields.io/badge/MongoDB-5.0-green)](https://www.mongodb.com/)
 
 ⦿ <b>Models :</b>
-* [![Tensorflow](https://www.tensorflow.org/)
+* [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.0-orange)](https://www.tensorflow.org/)
+

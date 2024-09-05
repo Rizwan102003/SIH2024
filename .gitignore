@@ -1,0 +1,61 @@
+# Flutter/Dart related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+.pub-cache/
+.pub/
+/*.iml
+
+# Android specific
+.android/
+local.properties
+app/build/
+app/.cxx/
+**/*.apk
+**/*.aar
+**/output.json
+
+# iOS specific
+ios/Flutter/.last_build_id
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+**/*.xcodeproj/**
+**/*.xcworkspace/**
+**/*.xcuserstate
+**/*.xcuserdata
+**/GeneratedPluginRegistrant.*
+
+# Web specific
+web/.sass-cache/
+web/flutter.css
+
+# VS Code specific
+.vscode/
+.idea/
+*.code-workspace
+
+# Firebase related
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Miscellaneous
+*.log
+*.tmp
+*.lock
+*.bak
+*.swp
+*.swo
+.DS_Store
+*.so
+*.lock
+*.pyc
+*.pyo
+*.out
+
+# Linux specific
+linux/
+linux/flutter/ephemeral/

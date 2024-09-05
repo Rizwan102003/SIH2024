@@ -5,6 +5,13 @@ import 'package:hexa/user_homepage.dart';
 import 'package:hexa/welcome.dart';
 import 'package:hexa/user_optionchoose.dart';
 
+import 'package:hexa/admin_homepage.dart';
+import 'package:hexa/doctor_homepage.dart';
+
+
+
+
+
 
 
 
@@ -28,6 +35,16 @@ class MyApp extends StatelessWidget {
         '/UserChoose':(context)=>UserChoose(),
         '/UserHomePage':(context)=> UserHomepage(),
 
+         '/admin':(context)=>AdminPage(),
+        '/doctor':(context)=>NewDashboardPage(),
+
+    }
+    );
+  }
+}
+
+
+
 
     }
     );
@@ -37,3 +54,4 @@ void main() {
   runApp(MaterialApp(home: Text("Hello World")));
 
 }
+

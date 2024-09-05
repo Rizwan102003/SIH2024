@@ -7,6 +7,7 @@ import 'package:hexa/user_optionchoose.dart';
 
 
 
+
 //This is the first or the Welcome Page of the Project
 
 void main(){
@@ -31,4 +32,8 @@ class MyApp extends StatelessWidget {
     }
     );
   }
+
+void main() {
+  runApp(MaterialApp(home: Text("Hello World")));
+
 }

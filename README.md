@@ -29,7 +29,7 @@ We have implemented these features:
   1. User,Doctor and Hospital admin database access through MongoDB
   2. AI chatbot support in English language.
 
-### This is the project flowchart - <b>Flowchart :</b> [Click Here to View]([https://www.canva.com/design/DAFKY0ISCIc/Dc9_AccjIlpIO0fpXs7zAg/edit](https://www.mermaidchart.com/raw/86a3db01-0bfd-4c30-be96-cda93fc07c17?theme=light&version=v0.1&format=svg))
+### This is the project flowchart - You can view the Flowchart [Here](https://www.mermaidchart.com/raw/86a3db01-0bfd-4c30-be96-cda93fc07c17?theme=light&version=v0.1&format=svg)
 
 ### Tech Stacks Used :
 ⦿ <b>FrontEnd :</b> 

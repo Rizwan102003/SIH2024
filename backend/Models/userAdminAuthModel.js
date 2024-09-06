@@ -5,8 +5,8 @@ const userAdminSchema = new mongoose.Schema({
         username: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 10,
+            maxlength: 10,
+            minlength: 5,
         },
         InstitutionEmail: {
             type: String,
@@ -15,8 +15,7 @@ const userAdminSchema = new mongoose.Schema({
         password: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 8,
+    
         },
         InstitutionName: {
             type: String,
@@ -25,7 +24,7 @@ const userAdminSchema = new mongoose.Schema({
         security:{
             lastLogin: {
                 type: Date,
-                required: true,
+                required: false,
             },
             failedLogin: {
                 type: Number,
@@ -37,11 +36,11 @@ const userAdminSchema = new mongoose.Schema({
             },
             updatedAt:{
                 type:Date,
-                required:true
+                required:false
             }
         }
     },
 });
 
-const userAdminAuthModel = mongoose.model('AdminAuth',userAdminSchema);
+const userAdminAuthModel = mongoose.model('adminAuth',userAdminSchema);
 export {userAdminAuthModel};

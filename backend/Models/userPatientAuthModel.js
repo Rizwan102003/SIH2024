@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         username: {
             type: String,
             required: true,
-            maxlength: 10,
+            maxlength: 15,
             minlength: 5,
         },
         email: {
@@ -20,6 +20,19 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
+        dob:{
+            type: Date,
+            required: true,
+        },
+        age:{
+            type: Number,
+            required: true,
+        },
+        gender: {
+            type: String,
+            required: true,
+            enum: ['male', 'female', 'm', 'f', 'Male', 'Female', 'M', 'F'],
+        }
     },
     healthDetails: {
         height: {
@@ -35,24 +48,12 @@ const userSchema = new mongoose.Schema({
             required: true,
         },
         chronicIllness: {
-            hasChronicIllness: {
-                type: Boolean,
-                required: false,
-            },
-            ChronicIllness: {
-                type: [String],
-                default: [],
-            },
+            type: [String],
+            default: [],
         },
         allergies: {
-            hasAllergies: {
-                type: Boolean,
-                required: false,
-            },
-            allergies: {
-                type: [String],
-                default: [],
-            },
+            type: [String],
+            default: [],
         },
         lastCheckUp: {
             lastCheckUpDoctor: {
@@ -64,6 +65,11 @@ const userSchema = new mongoose.Schema({
                 default: Date.now,
             },
         },
+        lastMedication:{
+            type: String,
+            required: false,
+            default:""
+        }
     },
     security:{
         lastLogin: {

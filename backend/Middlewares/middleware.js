@@ -22,4 +22,4 @@ const extractUserId = (req, res, next) => {
   });
 };
 
-export  {extractUserId};
+export  { extractUserId };

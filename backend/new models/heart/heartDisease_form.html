@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+</head>
+<body>
+    <h1>Heart Disease Prediction Form</h1>
+    <form action="/predict" method="post">
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" required><br><br>
+        
+        <label for="sex">Sex (1 = male; 0 = female):</label>
+        <input type="text" id="sex" name="sex" required><br><br>
+        
+        <label for="cp">CP (chest pain type):</label>
+        <input type="text" id="cp" name="cp" required><br><br>
+        
+        <label for="trestbps">Resting Blood Pressure (trestbps):</label>
+        <input type="text" id="trestbps" name="trestbps" required><br><br>
+        
+        <label for="chol">Serum Cholesterol (chol):</label>
+        <input type="text" id="chol" name="chol" required><br><br>
+        
+        <label for="fbs">Fasting Blood Sugar > 120 mg/dl (1 = true; 0 = false):</label>
+        <input type="text" id="fbs" name="fbs" required><br><br>
+        
+        <label for="restecg">Resting Electrocardiographic Results (restecg):</label>
+        <input type="text" id="restecg" name="restecg" required><br><br>
+        
+        <label for="thalach">Maximum Heart Rate Achieved (thalach):</label>
+        <input type="text" id="thalach" name="thalach" required><br><br>
+        
+        <label for="exang">Exercise Induced Angina (1 = yes; 0 = no):</label>
+        <input type="text" id="exang" name="exang" required><br><br>
+        
+        <label for="oldpeak">ST Depression Induced by Exercise Relative to Rest (oldpeak):</label>
+        <input type="text" id="oldpeak" name="oldpeak" required><br><br>
+        
+        <label for="slope">Slope of the Peak Exercise ST Segment (slope):</label>
+        <input type="text" id="slope" name="slope" required><br><br>
+        
+        <label for="ca">Number of Major Vessels Colored by Fluoroscopy (ca):</label>
+        <input type="text" id="ca" name="ca" required><br><br>
+        
+        <label for="thal">Thalassemia (thal):</label>
+        <input type="text" id="thal" name="thal" required><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -5,8 +5,8 @@ const userDoctorSchema = new mongoose.Schema({
         username: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 10,
+            maxlength: 10,
+            minlength: 5,
         },
         email: {
             type: String,
@@ -15,8 +15,6 @@ const userDoctorSchema = new mongoose.Schema({
         password: {
             type: String,
             required: true,
-            maxlength: 16,
-            minlength: 8,
         },
         fullName: {
             type: String,
@@ -25,7 +23,7 @@ const userDoctorSchema = new mongoose.Schema({
         security: {
             lastLogin: {
                 type: Date,
-                required: true,
+                required: false,
             },
             failedLogin: {
                 type: Number,
@@ -37,7 +35,7 @@ const userDoctorSchema = new mongoose.Schema({
             },
             updatedAt:{
                 type:Date,
-                required:true
+                required:false
             }
         }
     },

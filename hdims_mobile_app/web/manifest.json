@@ -1,6 +1,6 @@
 {
-    "name": "hdims_mobile_app",
-    "short_name": "hdims_mobile_app",
+    "name": "hexa",
+    "short_name": "hexa",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

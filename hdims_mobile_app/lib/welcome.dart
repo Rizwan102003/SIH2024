@@ -15,33 +15,36 @@ class Welcome extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
           decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/homescreen.jpeg'),
+          image: DecorationImage(image: AssetImage('assets/welcome.jpg'),
           fit:BoxFit.cover),
           ),
-          padding: EdgeInsets.only(top: 150,bottom:100,left: 20),
+          padding: EdgeInsets.all(16.0),
 
             child:SingleChildScrollView(
             child:Column(
               children: [
                 Text ('WELCOME',
                       style: TextStyle(
-                        fontSize: 45,
+                        fontSize: 50,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        fontFamily: 'Font1',
                       ),
                     ),
                    Text ('TO',
                     style: TextStyle(
-            fontSize: 45,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
             color: Colors.black,
+                      fontFamily: 'Font1',
                     ),
                   ),
                 Text ('HDIMS',
                   style: TextStyle(
-                    fontSize: 45,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                    fontFamily: 'Font1'
                   ),
                 ),
                   SizedBox(
@@ -54,7 +57,6 @@ class Welcome extends StatelessWidget {
                   Text('Please select your profile',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
@@ -69,7 +71,7 @@ class Welcome extends StatelessWidget {
                     shadowColor: Colors.blueGrey,
                     minimumSize: Size(20,53),
                   ),
-                  child: Text('USER',
+                  child: Text('PATIENT',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -81,7 +83,7 @@ class Welcome extends StatelessWidget {
                   height: 20,
                 ),
                 ElevatedButton(onPressed: () {
-                    Navigator.pushNamed(context, '/doctor');
+                    Navigator.pushNamed(context, '/doctorlogin');
                 },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo,
@@ -100,7 +102,7 @@ class Welcome extends StatelessWidget {
                   height: 20,
                 ),
                 ElevatedButton(onPressed: () {
-                  Navigator.pushNamed(context, '/admin');
+                  Navigator.pushNamed(context, '/adminlogin');
                 },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo,

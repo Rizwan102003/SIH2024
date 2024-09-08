@@ -59,3 +59,6 @@ android/app/google-services.json
 # Linux specific
 linux/
 linux/flutter/ephemeral/
+
+# NODE MODULES
+node_modules

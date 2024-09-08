@@ -1,4 +1,4 @@
-# hdims_mobile_app
+# hexa
 
 A new Flutter project.
 

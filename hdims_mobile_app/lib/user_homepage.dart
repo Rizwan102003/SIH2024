@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
-
-
 class UserHomepage extends StatefulWidget {
   @override
   _UserHomepageState createState() => _UserHomepageState();
@@ -14,19 +10,22 @@ class _UserHomepageState extends State<UserHomepage> {
   List<String> _messages = []; // List to store chat messages
   TextEditingController _messageController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightBlueAccent[100],
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Text('Dashboard',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 40,
-            ),),
+            Text(
+              'Dashboard',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+              ),
+            ),
             SizedBox(width: 30), // Increase spacing between title and button
             Padding(
               padding: const EdgeInsets.only(right: 8.0), // Move button slightly to the right
@@ -39,27 +38,30 @@ class _UserHomepageState extends State<UserHomepage> {
       ),
       body: Container(
         decoration: BoxDecoration(
-              color:Colors.lightBlueAccent[100],
+          color: Colors.lightBlueAccent[100],
         ),
-    child: Stack(
-        children: [
-          SingleChildScrollView( // Make the page scrollable
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                _buildInfoContainer(),
-                SizedBox(height: 20),
-                _buildButton('Update Details', Colors.blueAccent[200], Colors.lightBlue[200]), // "Update Details" button
-                SizedBox(height: 10),
-                _buildButton('My records', Colors.blue[800], Colors.lightBlueAccent), // "My records" button
-                SizedBox(height: 20),
-                _buildNoticesContainer(), // New "Notices" container
-              ],
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              // Make the page scrollable
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  _buildInfoContainer(),
+                  SizedBox(height: 20),
+                  _buildButton(
+                      'Update Details', Colors.blueAccent[200], Colors.lightBlue[200]), // "Update Details" button
+                  SizedBox(height: 10),
+                  _buildButton(
+                      'My records', Colors.blue[800], Colors.lightBlueAccent), // "My records" button
+                  SizedBox(height: 20),
+                  _buildNoticesContainer(), // New "Notices" container
+                ],
+              ),
             ),
-          ),
-          if (_isChatVisible) _buildChatContainer(), // Show the chat container if it's visible
-        ],
-      ),
+            if (_isChatVisible) _buildChatContainer(), // Show the chat container if it's visible
+          ],
+        ),
       ),
     );
   }
@@ -172,8 +174,10 @@ class _UserHomepageState extends State<UserHomepage> {
       width: double.infinity,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage('assets/dashboard.png'),
-          fit:BoxFit.cover,),
+        image: DecorationImage(
+          image: AssetImage('assets/dashboard.jpg'),
+          fit: BoxFit.cover,
+        ),
         borderRadius: BorderRadius.circular(15.0), // Rounded corners
         boxShadow: [
           BoxShadow(
@@ -191,33 +195,62 @@ class _UserHomepageState extends State<UserHomepage> {
           CircleAvatar(
             child: Icon(
               Icons.person,
-              size:50,
+              size: 50,
             ),
             radius: 40,
             backgroundColor: Colors.blue[200], // Circular icon placeholder
           ),
           SizedBox(height: 20), // Spacing between icon and text
-          _buildInfoText('Name:'),
-          _buildInfoText('Age:'),
-          _buildInfoText('Birthday:'),
-          _buildInfoText('Height:'),
-          _buildInfoText('Weight:'),
-          _buildInfoText('Blood Type:'),
+          _buildInfoRow('Name:Asmi Ray'),
+          _buildInfoRow('Age:55'),
+          _buildInfoRow('Birthday:11th September'),
+          _buildInfoRow('Height:115'),
+          _buildInfoRow('Weight:115'),
+          _buildInfoRow('Blood Type:  O -'),
         ],
       ),
     );
   }
 
-  Widget _buildInfoText(String text) {
+  Widget _buildInfoRow(String label) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 18.0,
-          color: Colors.blueGrey[800],
-          fontWeight: FontWeight.bold,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.blueGrey[800],
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            width: 150, // Width of the text input container
+            height: 30,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.blueGrey,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter $label',
+                    hintStyle: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

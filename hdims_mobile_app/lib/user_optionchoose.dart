@@ -21,10 +21,13 @@ class _UserChooseState extends State<UserChoose> {
   @override
   Widget build(BuildContext context) {
 return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[600],
+      ),
       body: Container(
         // Set the solid color background here
         decoration: BoxDecoration(
-           image: DecorationImage(image: AssetImage('assets/welcome_user.jpeg'),
+           image: DecorationImage(image: AssetImage('assets/userchoose.jpg'),
            fit:BoxFit.cover,)
         ),
 
@@ -44,17 +47,19 @@ return Scaffold(
                   'WELCOME ',
 
                   style: TextStyle(
-                    fontSize: 45,
+                    fontSize: 55,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.black,
+                    fontFamily: 'Font1',
                   ),
                 ),
             Text('USER',
 
             style: TextStyle(
-              fontSize: 45,
+              fontSize: 55,
+              fontFamily: 'Font1',
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
                 SizedBox(height: 30),

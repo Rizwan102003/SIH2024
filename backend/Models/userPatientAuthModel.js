@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     userDetails: {
         username: {
             type: String,
-            required: true,
+            required: false,
             maxlength: 15,
             minlength: 5,
         },
@@ -18,34 +18,34 @@ const userSchema = new mongoose.Schema({
         },
         fullName: {
             type: String,
-            required: true,
+            required: false,
         },
         dob:{
             type: Date,
-            required: true,
+            required: false,
         },
         age:{
             type: Number,
-            required: true,
+            required: false,
         },
         gender: {
             type: String,
-            required: true,
+            required: false,
             enum: ['male', 'female', 'm', 'f', 'Male', 'Female', 'M', 'F'],
         }
     },
     healthDetails: {
         height: {
             type: Number,
-            required: true,
+            required: false,
         },
         weight: {
             type: Number,
-            required: true,
+            required: false,
         },
         bloodType: {
             type: String,
-            required: true,
+            required: false,
         },
         chronicIllness: {
             type: [String],

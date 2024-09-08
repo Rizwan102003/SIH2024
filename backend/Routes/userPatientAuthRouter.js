@@ -16,55 +16,30 @@ const router = express.Router();
 const readdir = promisify(fs.readdir);
 
 router.post('/signup', async (req, res) => {
+    console.log("Signup route called!")
     try {
-        const { username, email, password, fullName, height, weight, bloodType, lastCheckUpDoctor, lastCheckUpDate, age, dob, gender } = req.body;
-        console.log(username, email, password, fullName, height, weight, bloodType, lastCheckUpDoctor, lastCheckUpDate);
+        const {username,  email, password, } = req.body;
+        // console.log(username, email, password, fullName, height, weight, bloodType, lastCheckUpDoctor, lastCheckUpDate);
 
         const alreadyExists = await userPatientAuthModel.findOne({ 'userDetails.email': email });
         if (alreadyExists) {
             return res.json({ status: false, message: "User already exists!" });
         }
 
-        if (!username || !email || !password || !fullName || !height || !weight || !bloodType || !lastCheckUpDoctor || !lastCheckUpDate || !age || !dob || !gender) {
+        if ( !email || !password ) {
             return res.json({ message: 'Please include all the mandatory fields!', status: false });
         }
-        if (username.length < 5 || username.length > 15) {
-            return res.json({ message: 'Please enter username between 5 and 15 characters!', status: false });
-        }
+    
         if (password.length < 8 || password.length >= 16) {
             return res.json({ message: 'Please ensure password length is between 8 and 16 characters.', status: false });
         }
-        if (typeof (fullName) !== 'string') {
-            return res.json({ message: 'Please ensure full name is of type string', status: false })
-        }
-        if (typeof (age) !== 'number') {
-            return res.json({ message: 'Please ensure age is a number', status: false });
-        }
-        if (typeof (gender) !== 'string') {
-            return res.json({ message: 'Please ensure gender is of type string', status: false })
-        }
-
         const hashPassword = await bcrypt.hash(password, 10);
 
         const newPatient = new userPatientAuthModel({
             userDetails: {
-                username: username,
                 email: email,
                 password: hashPassword,
-                fullName: fullName,
-                age: age,
-                dob: dob,
-                gender: gender
             },
-            healthDetails: {
-                height: height,
-                weight: weight,
-                bloodType: bloodType,
-                lastCheckUp: {
-                    lastCheckUpDoctor: lastCheckUpDoctor,
-                    lastCheckUpDate: lastCheckUpDate
-                }
-            }
         });
 
         await newPatient.save();
@@ -94,6 +69,7 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+    console.log("Login route called!")
     const { email, password } = req.body;
     if (!email || !password) {
         return res.json({ message: 'Please provide email and password!', status: false });
@@ -146,6 +122,7 @@ router.get('/profile/:token', async (req, res) => {
 });
 
 router.post('/updateProfile/:token', async (req, res) => {
+    console.log("Update profile route called!")
     try {
         const { username, height, weight, lastCheckUpDoctor, lastCheckUpDate, chronicIllness, allergies } = req.body;
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert'; // Import this for JSON encoding
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class NewDashboardPage extends StatefulWidget {
   @override
@@ -7,33 +9,42 @@ class NewDashboardPage extends StatefulWidget {
 }
 
 class _NewDashboardPageState extends State<NewDashboardPage> {
-  bool _isChatVisible = false; // State variable to control chat container visibility
-  bool _isDetailsVisible = false; // State variable to control patient details container visibility
-  String _patientID = ''; // Variable to store the patient ID
+  bool _isChatVisible = false;
+  bool _isVideoCallVisible = false;
+  bool _isFloatingContainerVisible = false;
+  String _patientID = '';
   TextEditingController _patientIDController = TextEditingController();
 
-  List<String> _chatMessages = []; // List to store chat messages
-  TextEditingController _chatMessageController = TextEditingController(); // Controller for the chat input
-  ScrollController _chatScrollController = ScrollController(); // Controller for scrolling the chat
+  // Define the server URL here
+  final String serverUrl = 'https://10.0.2.2:8000/doctorAuth/}';
+
+  // Initialize FlutterSecureStorage
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[200],
+      backgroundColor: Colors.lightBlueAccent[100],
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Dashboard',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color:Colors.white,
-            ),),
-            SizedBox(width: 40),
+            Text(
+              'Dashboard',
+              style: TextStyle(
+                fontSize: 45,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 20),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
-              child: _buildRoundButton(),
+              child: Row(
+                children: [
+                  _buildMenuButton(),
+                ],
+              ),
             ),
           ],
         ),
@@ -42,171 +53,92 @@ class _NewDashboardPageState extends State<NewDashboardPage> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView( // Make the page scrollable
+          SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 _buildPatientIDContainer(),
-                if (_isDetailsVisible) _buildPatientDetailsContainer(),
+                if (_isFloatingContainerVisible) _buildPDFContainer(),
               ],
             ),
           ),
-          if (_isChatVisible) _buildChatContainer(), // Show the chat container if it's visible
+          if (_isVideoCallVisible) _buildVideoCallContainer(),
         ],
       ),
-    );
-  }
-
-  // Method to build the round button next to the "Dashboard" title
-  Widget _buildRoundButton() {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _isChatVisible = !_isChatVisible; // Toggle the chat container visibility
-          });
-        },
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 300), // Smooth transition
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [Colors.green, Colors.lightGreen],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Icon(Icons.chat, color: Colors.white), // Chat icon inside the button
+      floatingActionButton: FloatingActionButton(
+        onPressed: _toggleVideoCallContainer,
+        backgroundColor: Colors.lightGreen,
+        child: Icon(
+          Icons.video_call,
+          size: 28,
+          color: Colors.white,
         ),
       ),
     );
   }
 
-  // Method to build the chat container
-  Widget _buildChatContainer() {
-    return Positioned(
-      bottom: 20.0,
-      right: 20.0,
-      left: 20.0,
-      child: Material(
-        elevation: 8.0,
-        borderRadius: BorderRadius.circular(15.0),
-        child: Container(
-          height: 300, // Set fixed height for chat container
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.95),
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Column(
-            children: [
-              Text(
-                'Talk to Us!',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey[600],
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Expanded(
-                child: ListView.builder(
-                  controller: _chatScrollController, // Use ScrollController
-                  itemCount: _chatMessages.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          padding: const EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            color: Colors.blueGrey[50],
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Text(
-                            _chatMessages[index],
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              _buildChatInput(),
-            ],
-          ),
-        ),
+  Widget _buildMenuButton() {
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.menu,
+        color: Colors.white,
       ),
+      onSelected: (String value) {
+        switch (value) {
+          case 'AI Assistant':
+            Navigator.pushNamed(context, '/aibot');
+            print('AI Assistant Selected');
+            break;
+          case 'Heart Disease':
+            Navigator.pushNamed(context,'/heart');
+            print('Heart Disease Selected');
+            break;
+          case 'Parkinson\'s Disease':
+            Navigator.pushNamed(context,'/parkin');
+            print('Parkinson\'s Disease Selected');
+            break;
+        }
+      },
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            value: 'AI Assistant',
+            child: Text('AI Assistant'),
+          ),
+          PopupMenuItem(
+            value: 'Heart Disease',
+            child: Text('Heart Disease'),
+          ),
+          PopupMenuItem(
+            value: 'Parkinson\'s Disease',
+            child: Text('Parkinson\'s Disease'),
+          ),
+        ];
+      },
     );
   }
 
-  // Method to build the chat input field and send button
-  Widget _buildChatInput() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _chatMessageController,
-              decoration: InputDecoration(
-                hintText: 'Type your message...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.send, color: Colors.blueGrey[800]),
-            onPressed: _sendMessage,
-          ),
-        ],
-      ),
-    );
+  void _toggleVideoCallContainer() {
+    setState(() {
+      _isVideoCallVisible = !_isVideoCallVisible;
+    });
   }
 
-  // Method to send a message
-  void _sendMessage() {
-    if (_chatMessageController.text.isNotEmpty) {
-      setState(() {
-        _chatMessages.add(
-            _chatMessageController.text); // Add the message to the list
-        _chatMessageController.clear(); // Clear the input field
-      });
-
-      // Scroll to the bottom when a new message is added
-      _chatScrollController.animateTo(
-        _chatScrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
+  void _toggleFloatingContainer() {
+    setState(() {
+      _isFloatingContainerVisible = !_isFloatingContainerVisible;
+    });
   }
 
-  // Method to build the container for typing the Patient ID
   Widget _buildPatientIDContainer() {
-    return Center(
-        child: Container(
+    return Container(
       height: 450,
-      width: 1000,
-      padding: const EdgeInsets.only(top:175,left:16,right:16,bottom:16),
+      padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage('assets/dashboard.png'),
-        fit:BoxFit.cover,),
+        image: DecorationImage(
+          image: AssetImage('assets/dashboard.jpg'),
+          fit: BoxFit.cover,
+        ),
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
@@ -222,23 +154,21 @@ class _NewDashboardPageState extends State<NewDashboardPage> {
           TextField(
             controller: _patientIDController,
             decoration: InputDecoration(
-              labelText: 'Type the Patient ID',
-              fillColor: Colors.grey.shade100,
+              fillColor: Colors.grey[300],
               filled: true,
+              labelText: 'Type the Patient ID',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           _buildSubmitButton(),
         ],
       ),
-        ),
     );
   }
 
-  // Method to build the submit button
   Widget _buildSubmitButton() {
     bool _isHovering = false;
     bool _isTapped = false;
@@ -266,21 +196,22 @@ class _NewDashboardPageState extends State<NewDashboardPage> {
               setState(() {
                 _isTapped = false;
                 _patientID = _patientIDController.text;
-                _showPatientDetails();
+                _submitPatientID(); // Call the function to submit the patient ID
+                _toggleFloatingContainer();
               });
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
               decoration: BoxDecoration(
                 color: _isTapped
-                    ? Colors.blueAccent[900]
+                    ? Colors.blue[900]
                     : _isHovering
                     ? Colors.blue[700]
                     : Colors.blue[800],
                 borderRadius: BorderRadius.circular(8.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.blue.withOpacity(0.5),
+                    color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: Offset(0, 2),
@@ -304,13 +235,12 @@ class _NewDashboardPageState extends State<NewDashboardPage> {
     );
   }
 
-  // Method to build the patient details container
-  Widget _buildPatientDetailsContainer() {
+  Widget _buildPDFContainer() {
     return Container(
       margin: const EdgeInsets.only(top: 20.0),
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: Colors.blueGrey[50]?.withOpacity(0.8),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
@@ -321,54 +251,69 @@ class _NewDashboardPageState extends State<NewDashboardPage> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Text(
-            'Patient Details for ID: $_patientID',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey[800],
-            ),
+      child: Center(
+        child: Text(
+          'PDF content will be displayed here...',
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.blueGrey[800],
           ),
-          SizedBox(height: 10.0),
-          Container(
-            height: 150,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildDetailText('Name:'),
-                  _buildDetailText('Age:'),
-                  _buildDetailText('Birthdate:'),
-                  _buildDetailText('Gender:'),
-                  _buildDetailText('Height:'),
-                  _buildDetailText('Weight:'),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailText(String detail) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Text(
-        detail,
-        style: TextStyle(
-          fontSize: 16.0,
-          color: Colors.blueGrey[800],
+          textAlign: TextAlign.center,
         ),
       ),
     );
   }
 
-  void _showPatientDetails() {
-    setState(() {
-      _isDetailsVisible = true;
-    });
+  Widget _buildVideoCallContainer() {
+    return Positioned.fill(
+      child: Container(
+        color: Colors.black.withOpacity(0.5),
+        child: Center(
+          child: Container(
+            width: 150.0,
+            height: 150.0,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.9),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 5,
+                  blurRadius: 10,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Icon(
+              Icons.video_call,
+              size: 60.0,
+              color: Colors.blueGrey[700],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Function to submit the patient ID to the server
+  Future<void> _submitPatientID() async {
+    try {
+      final response = await http.post(
+        Uri.parse(serverUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'patientID': _patientID}),
+      );
+
+      if (response.statusCode == 200) {
+        // If the server returns an OK response, parse the JSON.
+        print('Patient ID submitted successfully.');
+        // Handle the response or update the UI as needed
+      } else {
+        // If the server did not return a 200 OK response, throw an error.
+        print('Failed to submit Patient ID. Server response: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error occurred while submitting Patient ID: $e');
+    }
   }
 }

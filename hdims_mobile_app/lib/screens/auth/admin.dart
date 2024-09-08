@@ -1,1 +1,0 @@
-// this is the login/reg page for the admin of the hospital

@@ -4,14 +4,15 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import qs from 'qs';
+import {ObjectId} from 'mongodb'
 import { userDoctorAuthModel } from '../Models/userDoctorAuthModel.js';
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
     try {
-        const { username, email, password, fullName } = req.body;
+        const { username, password } = req.body;
 
-        if (!username || !email || !fullName || !password) {
+        if (!username  || !password ) {
             return res.json({ message: 'Please include all the required fields!', status: false });
         }
 
@@ -22,9 +23,7 @@ router.post('/signup', async (req, res) => {
         if (password.length < 8 || password.length > 16) {
             return res.json({ message: 'Password should be between 8 and 16 characters!', status: false });
         }
-        if (typeof (fullName) != 'string') {
-            return res.json({ message: 'Please ensure full name is of type string', status: false });
-        }
+
 
         // Check if email already exists
         const doctorExists = await userDoctorAuthModel.findOne({ 'doctorDetails.email': email });
@@ -39,7 +38,7 @@ router.post('/signup', async (req, res) => {
                 username: username,
                 email: email,
                 password: hashedPassword,
-                fullName: fullName,
+
             }
         });
 
@@ -63,8 +62,8 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
+        const { password, regNo } = req.body;
+        if (!regNo || !password) {
             return res.json({ message: 'Please provide email and password!', status: false });
         }
         const doctorExists = await userDoctorAuthModel.findOne({ 'doctorDetails.email': email });
@@ -89,9 +88,37 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/view/:token', async (req, res) => {
 
+router.get('/view/:token', async (req, res) => {
+    const { token } = req.params;
+    const { id } = req.query;
+    console.log(id)
+    if (!token) {
+        return res.json({ message: 'Please login first!', status: false });
+    }
+
+    if (!id) {
+        return res.json({ message: 'Please provide id!', status: false });
+    }
+
+    try {
+        // Convert the id to ObjectId
+        const objectId = new ObjectId(id);
+
+        // Access the native MongoDB collection
+        const patient = await mongoose.connection.db.collection('patientauths').findOne({ _id: objectId });
+        console.log()
+        if (!patient) {
+            return res.json({ message: 'No patient found!', status: false });
+        }
+
+        return res.json({ message: 'Patient found successfully!', patient: patient, status: true });
+    } catch (err) {
+        console.error('Error fetching patient:', err);
+        return res.status(500).json({ message: 'An error occurred while fetching patient!', status: false });
+    }
 });
+
 
 router.post('/deleteProfile/:token', async (req, res) => {
     try {
@@ -117,14 +144,8 @@ router.post('/deleteProfile/:token', async (req, res) => {
 
 //Chatbot endpoint to query for user lifestyle suggestions.
 
-router.post('/parkinsonAI/:token', async (req, res) => {
+router.post('/parkinsonAI/', async (req, res) => {
     try {
-        const { token } = req.params;
-        if (!token) {
-            return res.json({ message: "Please login!", status: false });
-        }
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
         const { prompt } = req.body;
         let url = "http://localhost:5001/predict";
         axios.post(url, {
@@ -151,20 +172,12 @@ router.post('/parkinsonAI/:token', async (req, res) => {
     }
 });
 
-router.post('/heartDieseaseAI/:token', async (req, res) => {
+router.post('/heartDieseaseAI/', async (req, res) => {
     try {
-        const { age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal,  } = req.body;
-
-
-        const { token } = req.params;
-        if (!token) {
-            return res.json({ message: "Please login!", status: false });
-        }
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
+        const { age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal,  } = req.bo
         const { prompt } = req.body;
         let url = "http://localhost:5001/predict";
-        axios.post(url, qs.stringify({
+        axios.post(url, {
             age: age,
             sex: sex,
             cp: cp,
@@ -178,10 +191,10 @@ router.post('/heartDieseaseAI/:token', async (req, res) => {
             slope: slope,
             ca: ca,
             thal: thal
-        }),
+        },
     {
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'  // Setting the Content-Type to application/json
+            'Content-Type': 'application/json'  // Setting the Content-Type to application/json
         }
     }).then((response) => {
             const chat = {
@@ -203,19 +216,12 @@ router.post('/heartDieseaseAI/:token', async (req, res) => {
     }
 });
 
-router.post('/generalAI/:token', async (req, res) => {
+router.post('/generalAI/', async (req, res) => {
     try {
-        const { token } = req.params;
-        if (!token) {
-            return res.json({ message: "Please login!", status: false });
-        }
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
-        const { prompt } = req.body;
+        const { symptoms } = req.body;
         let url = "http://localhost:5001/predict";
         axios.post(url, {
-            input: prompt,
-            mode: "t"
+            symptoms: symptoms,
         }).then((response) => {
             console.log(response)
             const chat = {
